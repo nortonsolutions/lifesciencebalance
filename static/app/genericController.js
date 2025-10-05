@@ -7,12 +7,18 @@ import { EventDepot } from "./eventDepot.js";
 import { defaultServices } from "./database.js";
 import { initCourseSubmissionForm } from "./courseSubmissionForm.js";
 import { loadAdminDashboard } from "./adminFunctions.js";
+import { ProductController } from "./productController.js";
+import { CartController } from "./cartController.js";
 
 export class GenericController {
   constructor(router) {
     this.eventDepot = new EventDepot();
     this.genericView = new GenericView(router, this.eventDepot);
     this.router = router;
+    
+    // Initialize e-commerce controllers
+    this.productController = new ProductController(router);
+    this.cartController = new CartController(router);
   }
 
   async load(request) {
@@ -90,6 +96,21 @@ export class GenericController {
           // Unauthorized - redirect to home
           this.router.navigateTo("/app.html", "", false);
         }
+        break;
+      
+      case 'products':
+        // Render products page (e-commerce)
+        await this.productController.load(request);
+        break;
+      
+      case 'product':
+        // Render product detail page (e-commerce)
+        await this.productController.load(request);
+        break;
+      
+      case 'cart':
+        // Render shopping cart page (e-commerce)
+        await this.cartController.load(request);
         break;
         
       default:

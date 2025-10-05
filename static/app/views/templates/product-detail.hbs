@@ -1,0 +1,119 @@
+<div id="product-detail" class="container py-5">
+    {{#with product}}
+    <div class="row">
+        <div class="col-md-6">
+            {{#if image_url}}
+            <img src="{{image_url}}" class="img-fluid rounded shadow" alt="{{name}}">
+            {{else}}
+            <img src="/public/images/placeholder-product.jpg" class="img-fluid rounded shadow" alt="{{name}}">
+            {{/if}}
+        </div>
+        
+        <div class="col-md-6">
+            <h1 class="mb-3">{{name}}</h1>
+            
+            {{#if category}}
+            <p class="text-muted">
+                <i class="fas fa-tag"></i> {{category}}
+            </p>
+            {{/if}}
+            
+            <h2 class="text-primary mb-4">${{price}}</h2>
+            
+            <div class="mb-4">
+                {{#if in_stock}}
+                <span class="badge badge-success badge-lg">In Stock</span>
+                {{else}}
+                <span class="badge badge-secondary badge-lg">Out of Stock</span>
+                {{/if}}
+            </div>
+            
+            <p class="lead">{{description}}</p>
+            
+            {{#if tags}}
+            <div class="mb-3">
+                <strong>Tags:</strong>
+                {{#each tags}}
+                <span class="badge badge-secondary">{{this}}</span>
+                {{/each}}
+            </div>
+            {{/if}}
+            
+            {{#if sku}}
+            <p class="text-muted small">SKU: {{sku}}</p>
+            {{/if}}
+            
+            {{#if in_stock}}
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" class="form-control" value="1" min="1" max="10" style="width: 100px;">
+            </div>
+            
+            <button id="addToCartBtn" class="btn btn-primary btn-lg btn-block" data-product-id="{{id}}">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+            {{else}}
+            <button class="btn btn-secondary btn-lg btn-block" disabled>
+                Out of Stock
+            </button>
+            {{/if}}
+            
+            <a href="/app.html?page=products" class="btn btn-outline-secondary btn-block mt-3">
+                <i class="fas fa-arrow-left"></i> Back to Products
+            </a>
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab">
+                        Description
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="details-tab" data-toggle="tab" href="#details" role="tab">
+                        Details
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content mt-3" id="productTabsContent">
+                <div class="tab-pane fade show active" id="description" role="tabpanel">
+                    <p>{{description}}</p>
+                </div>
+                <div class="tab-pane fade" id="details" role="tabpanel">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Category</th>
+                                <td>{{category}}</td>
+                            </tr>
+                            <tr>
+                                <th>Price</th>
+                                <td>${{price}}</td>
+                            </tr>
+                            <tr>
+                                <th>Availability</th>
+                                <td>
+                                    {{#if in_stock}}
+                                    <span class="text-success">In Stock</span>
+                                    {{else}}
+                                    <span class="text-secondary">Out of Stock</span>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                            {{#if sku}}
+                            <tr>
+                                <th>SKU</th>
+                                <td>{{sku}}</td>
+                            </tr>
+                            {{/if}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/with}}
+</div>
