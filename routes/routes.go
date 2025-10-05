@@ -26,6 +26,13 @@ func SetupRoutes(router *mux.Router, client *datastore.Client, ctx context.Conte
 	userCourseRepository := repositories.NewUserCourseRepository(client, ctx)
 	elementRepository := repositories.NewElementRepository(client, ctx)
 	moduleElementRepository := repositories.NewModuleElementRepository(client, ctx)
+	
+	// E-commerce repositories
+	productRepository := repositories.NewProductRepository(client, ctx)
+	customerRepository := repositories.NewCustomerRepository(client, ctx)
+	vendorRepository := repositories.NewVendorRepository(client, ctx)
+	orderRepository := repositories.NewOrderRepository(client, ctx)
+	cartRepository := repositories.NewCartRepository(client, ctx)
 
 	// Create handlers (controllers) with the repositories
 	userHandler := controllers.NewUserHandler(userRepository, &controllers.Sessions)
@@ -42,6 +49,13 @@ func SetupRoutes(router *mux.Router, client *datastore.Client, ctx context.Conte
 	moduleAttemptHandler := controllers.NewModuleAttemptHandler(moduleRepository, elementRepository, moduleElementRepository, userRepository)
 	fileUploadHandler := controllers.NewFileUploadHandler(projectRepository, moduleRepository, userRepository, moduleElementRepository)
 	adminHandler := controllers.NewAdminHandler(userRepository, courseRepository, moduleRepository, elementRepository, projectRepository)
+	
+	// E-commerce handlers
+	productHandler := controllers.NewProductHandler(productRepository)
+	customerHandler := controllers.NewCustomerHandler(customerRepository)
+	vendorHandler := controllers.NewVendorHandler(vendorRepository)
+	orderHandler := controllers.NewOrderHandler(orderRepository, cartRepository, productRepository, customerRepository)
+	cartHandler := controllers.NewCartHandler(cartRepository)
 
 	// AI/Machine Learning routes
 	geneticHandler := controllers.NewGeneticHandler()
@@ -190,6 +204,52 @@ func SetupRoutes(router *mux.Router, client *datastore.Client, ctx context.Conte
 	router.HandleFunc("/project/{id}", userHandler.ValidateSession(fileUploadHandler.DeleteProject)).Methods("DELETE")
 	router.HandleFunc("/user/{userId}/projects", userHandler.ValidateSession(fileUploadHandler.ListUserProjects)).Methods("GET")
 	router.HandleFunc("/module/{moduleId}/projects", userHandler.ValidateSession(fileUploadHandler.ListModuleProjects)).Methods("GET")
+
+	// E-commerce routes - Product management
+	router.HandleFunc("/product", productHandler.CreateProduct).Methods("POST")
+	router.HandleFunc("/product", productHandler.GetAllProducts).Methods("GET")
+	router.HandleFunc("/product/{id}", productHandler.GetProductByID).Methods("GET")
+	router.HandleFunc("/product/{id}", productHandler.UpdateProduct).Methods("PUT")
+	router.HandleFunc("/product/{id}", productHandler.DeleteProduct).Methods("DELETE")
+	router.HandleFunc("/product/approved", productHandler.GetApprovedProducts).Methods("GET")
+	router.HandleFunc("/product/unapproved", productHandler.GetUnapprovedProducts).Methods("GET")
+	router.HandleFunc("/product/category/{category}", productHandler.GetProductsByCategory).Methods("GET")
+	router.HandleFunc("/product/vendor/{vendorId}", productHandler.GetProductsByVendor).Methods("GET")
+	router.HandleFunc("/product/{id}/approve", userHandler.ValidateSession(productHandler.ApproveProduct)).Methods("PUT")
+	router.HandleFunc("/product/{id}/unapprove", userHandler.ValidateSession(productHandler.UnapproveProduct)).Methods("PUT")
+
+	// Customer routes
+	router.HandleFunc("/customer", customerHandler.CreateCustomer).Methods("POST")
+	router.HandleFunc("/customer", customerHandler.GetAllCustomers).Methods("GET")
+	router.HandleFunc("/customer/{id}", customerHandler.GetCustomerByID).Methods("GET")
+	router.HandleFunc("/customer/{id}", customerHandler.UpdateCustomer).Methods("PUT")
+	router.HandleFunc("/customer/{id}", customerHandler.DeleteCustomer).Methods("DELETE")
+	router.HandleFunc("/customer/user/{userId}", customerHandler.GetCustomerByUserID).Methods("GET")
+
+	// Vendor routes
+	router.HandleFunc("/vendor", vendorHandler.CreateVendor).Methods("POST")
+	router.HandleFunc("/vendor", vendorHandler.GetAllVendors).Methods("GET")
+	router.HandleFunc("/vendor/{id}", vendorHandler.GetVendorByID).Methods("GET")
+	router.HandleFunc("/vendor/{id}", vendorHandler.UpdateVendor).Methods("PUT")
+	router.HandleFunc("/vendor/{id}", vendorHandler.DeleteVendor).Methods("DELETE")
+	router.HandleFunc("/vendor/user/{userId}", vendorHandler.GetVendorByUserID).Methods("GET")
+	router.HandleFunc("/vendor/approved", vendorHandler.GetApprovedVendors).Methods("GET")
+	router.HandleFunc("/vendor/{id}/approve", userHandler.ValidateSession(vendorHandler.ApproveVendor)).Methods("PUT")
+
+	// Shopping cart routes
+	router.HandleFunc("/cart/customer/{customerId}", cartHandler.GetCart).Methods("GET")
+	router.HandleFunc("/cart/customer/{customerId}", cartHandler.AddToCart).Methods("POST")
+	router.HandleFunc("/cart/customer/{customerId}", cartHandler.UpdateCartItem).Methods("PUT")
+	router.HandleFunc("/cart/customer/{customerId}/product/{productId}", cartHandler.RemoveFromCart).Methods("DELETE")
+	router.HandleFunc("/cart/customer/{customerId}/clear", cartHandler.ClearCart).Methods("DELETE")
+
+	// Order routes
+	router.HandleFunc("/order", orderHandler.CreateOrder).Methods("POST")
+	router.HandleFunc("/order", orderHandler.GetAllOrders).Methods("GET")
+	router.HandleFunc("/order/{id}", orderHandler.GetOrderByID).Methods("GET")
+	router.HandleFunc("/order/{id}/status", orderHandler.UpdateOrderStatus).Methods("PUT")
+	router.HandleFunc("/order/customer/{customerId}", orderHandler.GetOrdersByCustomer).Methods("GET")
+	router.HandleFunc("/order/customer/{customerId}/checkout", orderHandler.CreateOrderFromCart).Methods("POST")
 
 	staticDir := os.Getenv("STATIC_DIR")
 	if staticDir == "" {
