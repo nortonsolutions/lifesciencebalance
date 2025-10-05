@@ -73,9 +73,9 @@ func (r *BaseRepository) DeleteModule(id int64) error {
 	return r.client.Delete(r.ctx, datastore.IDKey("Module", id, nil))
 }
 
-func (r *BaseRepository) GetAllModulesByCourseID(courseID int64) ([]*models.Module, error) {
+func (r *BaseRepository) GetAllModulesByProductID(productID int64) ([]*models.Module, error) {
 	var Modules []*models.Module
-	query := datastore.NewQuery("Module").FilterField("CourseID", "=", courseID)
+	query := datastore.NewQuery("Module").FilterField("ProductID", "=", productID)
 	keys, err := r.client.GetAll(r.ctx, query, &Modules)
 	if err != nil {
 		return nil, err

@@ -9,15 +9,15 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// ModuleHandler ..
+// ModuleHandler handles product-page component operations
 type ModuleHandler struct {
 	moduleRepository models.ModuleRepository
-	courseRepository models.CourseRepository
+	productRepository models.ProductRepository
 }
 
 // NewModuleHandler ..
-func NewModuleHandler(moduleRepository models.ModuleRepository, courseRepository models.CourseRepository) *ModuleHandler {
-	return &ModuleHandler{moduleRepository: moduleRepository, courseRepository: courseRepository}
+func NewModuleHandler(moduleRepository models.ModuleRepository, productRepository models.ProductRepository) *ModuleHandler {
+	return &ModuleHandler{moduleRepository: moduleRepository, productRepository: productRepository}
 }
 
 // add module
@@ -29,10 +29,10 @@ func (c *ModuleHandler) CreateModule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// If there was a param "courseId" then use it for the course_id in module
-	if id := mux.Vars(r)["courseId"]; id != "" {
+	// If there was a param "productId" then use it for the product_id in module
+	if id := mux.Vars(r)["productId"]; id != "" {
 		idInt, _ := strconv.ParseInt(id, 10, 64)
-		module.CourseID = idInt
+		module.ProductID = idInt
 	}
 
 	key, err := c.moduleRepository.CreateModule(&module)
@@ -41,17 +41,17 @@ func (c *ModuleHandler) CreateModule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// If courseId is not nil, update the modules for the course with this id by adding key.ID to the modules list
-	if id := mux.Vars(r)["courseId"]; id != "" {
+	// If productId is not nil, update the modules for the product with this id by adding key.ID to the modules list
+	if id := mux.Vars(r)["productId"]; id != "" {
 		// convert id to int64
 		idInt, _ := strconv.ParseInt(id, 10, 64)
-		course, err := c.courseRepository.GetCourseByID(idInt)
+		product, err := c.productRepository.GetProductByID(idInt)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		course.Modules = append(course.Modules, key.ID)
-		_, err = c.courseRepository.UpdateCourse(idInt, course)
+		product.Modules = append(product.Modules, key.ID)
+		_, err = c.productRepository.UpdateProduct(idInt, product)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -72,12 +72,12 @@ func (c *ModuleHandler) DeleteModule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// If courseId is not nil, remove key.ID from the course modules list
-	if courseId := mux.Vars(r)["courseId"]; courseId != "" {
+	// If productId is not nil, remove key.ID from the product modules list
+	if productId := mux.Vars(r)["productId"]; productId != "" {
 		// convert id to int64
-		courseIdInt, _ := strconv.ParseInt(courseId, 10, 64)
+		productIdInt, _ := strconv.ParseInt(productId, 10, 64)
 
-		course, err := c.courseRepository.GetCourseByID(courseIdInt)
+		product, err := c.productRepository.GetProductByID(productIdInt)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -85,19 +85,19 @@ func (c *ModuleHandler) DeleteModule(w http.ResponseWriter, r *http.Request) {
 
 		j := 0
 
-		for _, module := range course.Modules {
+		for _, module := range product.Modules {
 			if module != idInt {
-				course.Modules[j] = module
+				product.Modules[j] = module
 				j++
 			}
 		}
 
-		course.Modules = course.Modules[:j]
-		// course.Modules = lo.Filter(course.Modules, func(module int64, _ int) bool {
+		product.Modules = product.Modules[:j]
+		// product.Modules = lo.Filter(product.Modules, func(module int64, _ int) bool {
 		// 	return (module != idInt)
 		// })
 
-		_, err = c.courseRepository.UpdateCourse(idInt, course)
+		_, err = c.productRepository.UpdateProduct(idInt, product)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -158,10 +158,10 @@ func (c *ModuleHandler) UpdateModule(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(key)
 }
 
-func (c *ModuleHandler) GetAllModulesByCourseID(w http.ResponseWriter, r *http.Request) {
-	var id = mux.Vars(r)["courseId"]
+func (c *ModuleHandler) GetAllModulesByProductID(w http.ResponseWriter, r *http.Request) {
+	var id = mux.Vars(r)["productId"]
 	idInt, _ := strconv.ParseInt(id, 10, 64)
-	modules, err := c.moduleRepository.GetAllModulesByCourseID(idInt)
+	modules, err := c.moduleRepository.GetAllModulesByProductID(idInt)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
