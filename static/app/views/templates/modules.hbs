@@ -1,0 +1,33 @@
+{{!-- 
+
+Each module looks like this:
+
+type Element struct {
+	KeyID         int64    `json:"id"` //gorm:"primary_key,autoIncrement"
+	Name          string   `json:"name,omitempty"`
+	SortKey       int      `json:"sort_key,omitempty"`
+	Type          string   `json:"type,omitempty"` //default 'single'
+	ImageLocation string   `json:"image_location,omitempty"`
+	ImageCaption  string   `json:"image_caption,omitempty"`
+	ImageCredit   string   `json:"image_credit,omitempty"`
+	VideoLocation string   `json:"video_location,omitempty"`
+	VideoCaption  string   `json:"video_caption,omitempty"`
+	VideoCredit   string   `json:"video_credit,omitempty"`
+	Choices       []Choice `json:"choices,omitempty"`
+	TextRegex     string   `json:"text_regex,omitempty"`
+	EssayRegex    string   `json:"essay_regex,omitempty"`
+	ProjectID     int64    `json:"project_id,omitempty"`
+} --}}
+
+<h1 class="form-text display-5">Modules</h1>
+{{#each this}}
+<div class="row">
+    <div class="col-12">
+        <input type="hidden" value="{{id}}">
+        <a href="/app.html?page=module&detail={{id}}" data-route-link>{{name}}</a>
+    </div>
+</div>
+{{/each}}
+
+
+

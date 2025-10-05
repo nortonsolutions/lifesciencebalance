@@ -1,0 +1,138 @@
+#main {
+  margin-top: 80px;
+  text-align: center;
+}
+
+#homeImage {
+  transform: scaleX(1.5) translateY(-290px) scale(2);
+  filter: brightness(0.40);
+  height: 500px
+
+}
+
+#homeImageOverlay {
+  position: absolute;
+  top: 300px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+}
+
+#homeServiceContainer {
+  height: 360px;
+  padding: 10%;
+  width: 100%;
+  overflow: hidden;
+}
+
+#homeServiceTitle {
+  font-size: 40px; font-weight: 600;
+}
+
+.outlineButton {
+  /* margin-left: 10%; */
+  background: linear-gradient(to right, blue, yellow);
+  border-radius: 40px;
+}
+
+.outlinedButton {
+  background-color: #3f6fce;
+  color: white;
+  padding: 5px 20px 5px 20px;
+  border-radius: 40px;
+  border-color: transparent;
+  margin: 2px;
+}
+
+.nav-item > a,
+.dropdown > a {
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white !important;
+}
+
+.navbar-nav a:hover {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.navbar-nav a.active {
+  color: yellow !important;
+}
+
+#contactImage,
+#homeImage {
+  position: relative;
+  width: 100%;
+}
+
+#services {
+  position: relative;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  color: slategrey;
+  min-height: 100%;
+}
+
+#servicesImage {
+  position: relative;
+  width: auto;
+  max-height: 200px;
+}
+
+.serviceImage {
+  max-width: 50%;
+}
+
+@media (max-width: 890px) {
+  .outlineButton {
+    display: none;
+  }
+}
+
+#footer {
+  height: 200px;
+}
+
+#footer #footerRow {
+  background-color: transparent;
+  font-size: 30px;
+}
+
+#footer #footer1 {
+  width: 420px;
+  color: #f0f010;
+}
+
+#footer #newsletterForm {
+  width: 420px;
+  overflow: hidden;
+}
+
+#footer #btnSubmitNewsletterForm {
+  font-size: 14px;
+  width: 200px;
+  background: linear-gradient(to right, blue, yellow);
+}
+
+#footer #newsletterEmail {
+  width: 300px;
+  font-size: 14px;
+}
+
+#tagLine {
+  color: #828291;
+}
+
+#tagLine div {
+  margin: 20px;
+}
+
+
+#priceBubble,
+#homeAmenitiesBubble {
+  background: linear-gradient(to right, yellow, blue);
+  overflow: hidden;
+  width: 150px;
+}

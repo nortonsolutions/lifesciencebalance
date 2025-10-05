@@ -1,0 +1,187 @@
+<!-- 
+    HTML form which passes data to the /genetic handler,
+    receives the JSON response, and displays the result.
+    The img_url should be displayed in an img tag.
+
+    HTML form should include these fields:
+    	Generations    int     `json:"generations"`
+        PopulationSize int     `json:"population"`
+        Mutation       float64 `json:"mutation"`
+        N_Items        int     `json:"n_items"`
+        Limit          int     `json:"limit"`
+
+    JSON response looks like this:
+
+	{
+        "top_10_fitness": []
+        "average_fitness": []
+        "top_fitness": []
+        "img_url": "http://..."
+        "items": []
+    } -->
+
+<html>
+  <head>
+    <title>Genetic Algorithm</title>
+    <link rel="stylesheet" type="text/css" href="/public/style.css" />
+    <link rel="stylesheet" type="text/css" href="/cdn/bootstrap.min.css" />
+    <script src="/cdn/jquery-3.6.0.min.js"></script>
+    <script src="/cdn/bootstrap.bundle.min.js"></script>
+    <script src="/public/common.js"></script>
+  </head>
+  <body>
+    <div class="container">
+    <div class="row p-3">
+
+    <div class="col-3 px-2 mx-2">
+      <h1>Genetic Algorithm</h1>
+      <form id="form" action="/genetic" method="post">
+        <div class="form-group">
+          <label for="generations" class="text-primary">Generations</label><br>
+          <input
+            type="number"
+            class="form-control-sm"
+            id="generations"
+            name="generations"
+            placeholder="Generations"
+            value="100"
+          /><br>
+          <small id="generationsHelp" class="form-text text-muted">
+            Number of generations to run.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="population" class="text-primary">Population Size</label><br>
+          <input
+            type="number"
+            class="form-control-sm"
+            id="population"
+            name="population"
+            placeholder="Population Size"
+            value="100"
+          /><br>
+          <small id="populationHelp" class="form-text text-muted">
+            Genes in the population.
+          </small>
+
+        </div>
+        <div class="form-group">
+
+            
+          <label for="mutation" class="text-primary">Mutation Rate</label><br>
+          <!-- Mutation input allows decimals -->
+            <input
+                type="number"
+                class="form-control-sm"
+                id="mutation"
+                name="mutation"
+                placeholder="Mutation Rate"
+                value="0.04"
+                step=".000001"
+            /><br>
+            <small id="mutationHelp" class="form-text text-muted">
+                Probability of gene mutation.
+            </small>
+        </div>
+        <div class="form-group">
+          <label for="n_items" class="text-primary">Number of Items</label><br>
+          <input
+            type="number"
+            class="form-control-sm"
+            id="n_items"
+            name="n_items"
+            placeholder="Number of Items"
+            value="30"
+          /><br>
+          <small id="n_itemsHelp" class="form-text text-muted">
+            The number of items to be packed.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="limit" class="text-primary">Maximum Capacity</label><br>
+          <input
+            type="number"
+            class="form-control-sm"
+            id="limit"
+            name="limit"
+            placeholder="Limit"
+            value="40"
+          /><br>
+          <small id="limitHelp" class="form-text text-muted">
+            Maximum weight of the knapsack.
+          </small>
+        </div><br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    <div class="col-7 px-4 mx-2">
+      <h1>Results</h1>
+      <div id="results">
+        <small style="font-size: 0.8em;">
+          Item weights and values are randomized, and each member of the population chooses items randomly from the list
+          to try to put them into the knapsack.  If the total weight of the items is greater than the limit, it is a failure,
+          but otherwise the values are added up and the fitness is the sum.  Individuals with higher fitness are reproduced
+          in the next generation, so the population as a whole 'learns' over time to create the best fit.
+        </small><br><br>
+        <!-- 2D Canvas for plotting -->
+        <canvas id="canvas" style="border: 1px solid black;"></canvas>
+      </div>
+      <br>
+      <span class="small"><a href="https://en.wikipedia.org/wiki/Genetic_algorithm">Genetic Algorithm</a>; this version written in Golang by Dave Norton 2022</span>
+    </div>
+    <hr>
+  </div>
+
+  <div class="row">
+    <div class="col-4" id="itemsContainer"></div>
+  </div> 
+  </div>
+</div>
+</div>
+    <script>
+        var response = {};
+        var generations;
+        var canvasElement = document.getElementById('canvas');
+        var parent = document.getElementById("results");
+        var ctx = canvasElement.getContext("2d");
+        canvasElement.width = parent.offsetWidth;
+        canvasElement.height = .6 * parent.offsetWidth;
+
+        document.getElementById('form').addEventListener('submit', (e) => {
+
+            e.preventDefault();
+            let inputs = e.target.elements;
+            let data = {};
+            for (i = 0; i < inputs.length; i++) {
+                if (inputs[i].nodeName === "INPUT" && inputs[i].type === "number") {
+                    // Update text input
+                    data[inputs[i].name] = inputs[i].valueAsNumber;
+                }
+            }
+
+            handlePost('/genetic', data, (jsonResponse) => {
+                response = JSON.parse(jsonResponse);
+                renderCanvas();
+                // response.items is an array of items, each of which has Value and Weight
+                let table = getTableFromArray(response.items, {columnNames: ["value", "weight"]});
+                table.id = "items";
+                table.className = "table table-striped table-bordered table-sm";
+                table.style.fontSize = "0.8em";
+                
+                let itemsContainer = document.getElementById('itemsContainer');
+                itemsContainer.innerHTML = "<h1>Items</h1>";
+                itemsContainer.appendChild(table);                
+            });
+        });
+
+        function renderCanvas() {
+            generations = document.getElementById('generations').value;
+            maxOfTopFitness = Math.max(...response.top_fitness);
+            plotAxes(ctx, generations, maxOfTopFitness);
+            plotArray(ctx, response.top_fitness, "Top Fitness", "green", 50, maxOfTopFitness);
+            plotArray(ctx, response.top_10_fitness, "Top 10 Fitness", "red", 200, maxOfTopFitness);
+            plotArray(ctx, response.average_fitness, "Average Fitness", "blue", 350, maxOfTopFitness);
+        }
+    </script>
+  </body>
+</html>

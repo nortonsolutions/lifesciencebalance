@@ -1,0 +1,93 @@
+
+<div class="container mt-5 pt-5">
+  
+  <img src="/public/favicon.ico" class="float-end" height="200" alt="favicon" />
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h5>Welcome!</h5></div>
+        <div class="col">
+          <!-- <a href="#" class="fb btn">
+                <i class="fa fa-facebook fa-fw"></i> Login with Facebook
+              </a>
+              <a href="#" class="twitter btn">
+                <i class="fa fa-twitter fa-fw"></i> Login with Twitter
+              </a> -->
+          <a href="/sso" class="google btn btn-outline-primary form-control">
+            <i class="fab fa-google"></i> Login with Google+<br />
+            <label>(test users only)</label> </a><br />
+
+<hr>
+          <span class="google button">Or sign in manually:</span>
+        </div>
+        <div class="panel-body border border-primary p-3">
+          <form action="/login" id="localLogin" method="post">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+
+            <!-- button to make registrationModal unhidden -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrationModal">
+              Register
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end bootstrap container login form -->
+
+<!-- bootstrap modal registration form -->
+<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registrationModalLabel">
+          Registration
+        </h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/register" id="newUser" method="post">
+          <div class="form-group">
+            <label for="firstName">Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email" />
+          </div>
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First name" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Last Name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name" />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+              placeholder="Confirm Password" />
+          </div>
+          <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+*.exe
+launch.json
+.env
+cdn/
+node_modules/
+dist/
+.DS_Store

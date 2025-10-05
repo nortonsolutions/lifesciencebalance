@@ -1,0 +1,21 @@
+<div class="panel panel-default border border-primary p-3">
+    <div class="panel-heading">
+        <h3 class="panel-title">My Courses</h3>
+    </div>
+
+    <div class="panel-body">
+        {{#each this}}
+            <div class="row border border-secondary">
+                <div class="col-md-6 d-none">
+                    {{ id }}
+                </div>
+                <div class="col-md-6">
+                    <a href="/app.html?page=course&detail={{id}}" data-route-link>{{ name }}</a>
+                </div>
+                <div class="col-md-6">
+                    {{ description }}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>

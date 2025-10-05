@@ -1,0 +1,12 @@
+<h1 class="form-text display-5">Instructors</h1>
+{{#each this}}
+<div class="row">
+    <div class="col-6">
+        <input type="hidden" value="{{id}}">
+        {{firstname}} {{lastname}}
+    </div>
+    <div class="col-6">
+        {{email}}
+    </div>
+</div>
+{{/each}}

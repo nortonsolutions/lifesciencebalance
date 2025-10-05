@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-md fixed-top navbar-light bg-primary">
+  <div class="container-fluid">
+    <img width="60px" src="/public/favicon.ico" alt="CourseApp">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+        <li class="nav-item">
+          <a class="nav-link" data-route-link aria-current="page" href="/app.html"><i class="fa fa-home" aria-hidden="true"></i></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-route-link href="/generic.html?page=about">About</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Services
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+            {{#each allServices}}
+            <li><a class="dropdown-item {{serviceDetail}}" data-route-link href="/generic.html?page=serviceDetail&serviceId={{id}}">{{title}}</a></li>
+            {{/each}}
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/generic.html?page=services" data-route-link>Overview</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Links
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+            {{#each allLinks}}
+            <li><a class="dropdown-item" href="{{url}}">{{name}}</a></li>
+            {{/each}}
+          </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/generic.html?page=contact" data-route-link>Contact</a>
+        </li>
+        {{#if isAdmin}}
+        <li class="nav-item">
+            <a class="nav-link" href="/generic.html?page=admin" data-route-link>Admin</a>
+        </li>
+        {{/if}}
+        <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+      <div id="navPhone" class="outlineButton">
+        <button class="outlinedButton small"><i class="fas fa-phone"></i> (801) 857-5309</button>
+      </div>
+        {{!-- <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form> --}}
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,56 @@
+<form id="searchbar" action="/generic.html?page=services">
+
+    <div>
+        <div>
+            <select class="form-control" name="rentable" id="rentable">
+                <option value=null> For Rent</option>
+                <option value="on">Yes</option>
+                <option value="off">No</option>
+            </select>
+        </div>
+        <div>
+            <select class="form-control" name="type" id="type">
+                <option value=null> Type</option>
+                {{#each types }}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+
+        </div>
+        <div>
+            <select class="form-control" name="city" id="city">
+                <option value=null> City</option>
+                {{#each cities }}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+
+        </div>
+        <div>
+            <select class="form-control" name="bedrooms" id="bedrooms">
+                <option value=null> Bedrooms</option>
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5</option>
+                <option value=6>6</option>
+            </select>
+        </div>
+        <div>
+            <select class="form-control" name="bathrooms" id="bathrooms">
+                <option value=null> Bathrooms</option>
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5</option>
+                <option value=6>6</option>                
+            </select>
+        </div>
+        <div>
+            <button id="searchButton" type="submit">SEARCH</button>
+        </div>
+
+    </div>
+</form>
