@@ -3,6 +3,7 @@ package models
 import "cloud.google.com/go/datastore"
 
 // create Role model
+// Common roles: Student, Teacher, Admin, Customer, Vendor
 type Role struct {
 	// auto increment id
 	KeyID        int64  `json:"id"` //gorm:"primary_key,autoIncrement"
