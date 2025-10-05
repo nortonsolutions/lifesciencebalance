@@ -1,0 +1,25 @@
+<h2 class="text-center">Site Configuration</h2>
+<div class="row">
+
+    <div class="col">
+        <h4>Mailing List <span class="btn border-white" id="addToMailingList"><i class="fas fa-plus"></i></span></h4>
+            <table>
+            {{#each mailingList}}
+            <tr>
+                <td>{{email}}</td>
+                <td class="deleteEmail" id="deleteEmail-{{id}}"><i class="fas fa-trash"></i></td>
+            </tr>
+            {{/each}}
+            </table>
+    </div>
+
+    <div class="col">
+
+    </div>
+    
+    <div class="col">
+
+    </div>
+
+</div>
+

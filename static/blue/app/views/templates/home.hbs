@@ -1,0 +1,106 @@
+{{> navbar }}
+
+<div id="home" class="bg-white">
+
+  <div id="properties">
+    <!-- insert custom home-page graphic here -->
+    <a href="/property.html?propertyId={{id}}" data-route-link>
+    <div id="homePropertyContainer">
+
+      <img id="homeImage" src="images/{{imageFilename}}" alt="{{imageFilename}}">
+
+      <div id="homeImageOverlay">
+
+        <div style="font-size: 36px;" class="text-white text-left">{{title}}</div>
+        <div id="homePropertyTitle" class="text-left text-white pb-4">{{type}} in {{city}}</div>
+
+        <div id="homeAmenitiesBubble"
+          class="d-flex text-white badge-pill justify-content-center align-items-center py-2 px-2"
+          style="font-size: 12px; font-weight: 600;">
+          <div class="flex-fill"> <img src="images/icon_1.png" alt="icon_1"> {{area}} Sqft</div>
+          <div class="flex-fill"> <img src="images/icon_2.png" alt="icon_2"> {{bedrooms}} bedrooms</div>
+          <div class="flex-fill"> <img src="images/icon_3.png" alt="icon_3"> {{bathrooms}} bathrooms</div>
+        </div>
+
+        <div style="font-size: 36px; font-weight: 600;" class="text-white text-left py-5">$ {{price}}</div>
+      </div>
+
+
+    </div>
+    </a>
+    {{> searchbar }}
+  </div>
+
+
+  <h2 class="text-dark">{{properties.length}} Recent properties found</h2>
+
+  <div id="cardsContainer" class="bg-white">
+
+    <div class="cards">
+
+      {{#each properties}}
+
+      <a href="/property.html?propertyId={{id}}" data-route-link>
+        <div class="card">
+          <img class="cardImage" src="images/{{imageFilename}}" alt="{{imageFilename}}">
+          <div class="cardCity">{{city}}</div>
+          <div class="cardType">{{type}}</div>
+          <div class="cardPrice">$ {{price}}</div>
+          <div class="cardFooter">
+            <div><i class="fas fa-chart-area"></i> {{area}} Sqft</div>
+            <div><i class="fas fa-bed"></i> {{bedrooms}} Bedrooms</div>
+            <div><i class="fas fa-bath"></i> {{bathrooms}} Bathrooms</div>
+          </div>
+          {{status}}
+        </div>
+      </a>
+
+      {{/each}}
+
+    </div>
+    
+  </div>
+  <div class="d-flex justify-content-center py-5 px-2">
+  <button id="seeMore" style="width: 140px; background: linear-gradient(to right, blue, yellow)" class="d-flex text-white badge-pill justify-content-center align-items-center py-3 px-2 border-0">SEE MORE</button>
+
+  </div>
+
+  <div class="text-dark inactive" id="more">
+
+    <h2 class="text-dark">Find properties in these cities</h2>
+    <div id="cities" class="d-flex flex-wrap justify-content-center">
+      {{#each citiesWithCodes}}
+        <a href="/properties.html?city={{cityUrlSafe}}" data-route-link>
+        <div class="card">
+          <img class="cardImage" src="images/city_{{code}}.jpg" alt="{{city}}">
+          <div>{{city}}</div>
+        </div>
+      </a>
+
+      {{/each}}
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h2 class="text-dark p5">What our clients say</h2>
+    <div id="testimonials" class="d-flex flex-wrap justify-content-center">
+      {{#each testimonials}}
+        <div class="card text-left mx-2 my-2 bg-white border-0">
+          <h4 class="my-4">{{title}}</h4>
+          <div class="mr-5">{{testimonial}}</div>
+          <img class="testimonialImage rounded-circle mt-3 mb-2" src="images/{{image}}" alt="{{image}}">
+          <div><span class="testimonialName font-weight-bold text-success">{{name}}</span>, {{role}}</div>
+          <div class="text-primary"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        </div>
+      {{/each}}
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+
+  {{> footer}}
+
+</div>

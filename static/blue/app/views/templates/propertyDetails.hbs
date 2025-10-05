@@ -1,0 +1,144 @@
+<form id="propertyDetail" class="align-left">
+  <div id="inputForm" hidden>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>ID</label></div>
+      <div class="col-9"><span id="uniqueId">{{id}}</span></div>
+      <input type="hidden" name="id" value="{{id}}" />
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>Title</label></div>
+      <div class="col-9">
+        <input class="form-control" type="text" name="title" id="title" value="{{title}}" required />
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>Description</label></div>
+      <div class="col-9">
+        <input class="form-control" type="text" name="description" id="description" value="{{description}}" required />
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>City</label></div>
+      <div class="col-9">
+        <input class="form-control" type="text" name="city" id="city" value="{{city}}" required />
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>Price</label></div>
+      <div class="col-9">
+        <input class="form-control" type="number" name="price" id="price" value="{{price}}" required />
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>Type</label></div>
+      <div class="col-9">
+        <select class="form-control" name="type" id="type" required>
+          <option value=""></option>
+          <option value="City Property" {{roleCompare type 'City Property'}}>City Property</option>
+          <option value="Sea View Property" {{roleCompare type 'Sea View Property'}}>Sea View</option>
+          <option value="Townhouse" {{roleCompare type 'Townhouse'}}>Townhouse</option>
+          <option value="Vacation Home" {{roleCompare type 'Vacation Home'}}>Vacation Home</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>Type</label></div>
+      <div class="col-9">
+        <select class="form-control" name="status" id="status" required>
+          <option value=""></option>
+          <option value="standard" {{roleCompare status 'standard'}}>Standard</option>
+          <option value="featured" {{roleCompare status 'featured'}}>Featured</option>
+          <option value="offer" {{roleCompare status 'offer'}}>Offer</option>
+          <option value="new" {{roleCompare status 'new'}}>New</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>For Rent</label></div>
+      <div class="col-9">
+        <div>
+          <input class="form-control-sm" type="checkbox" name="rentable" id="rentable" {{verifiedHelper rentable}} />For Rent
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>Bedrooms</label></div>
+      <div class="col-9">
+        <input class="form-control" type="number" name="bedrooms" id="bedrooms" value="{{bedrooms}}" required />
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>Bathrooms</label></div>
+      <div class="col-9">
+        <input class="form-control" type="number" name="bathrooms" id="bathrooms" value="{{bathrooms}}" required />
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>Area (sqft)</label></div>
+      <div class="col-9">
+        <input class="form-control" type="number" name="area" id="area" value="{{area}}" required />
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>Patio (count)</label></div>
+      <div class="col-9">
+        <input class="form-control" type="number" name="patios" id="patios" value="{{patios}}" required />
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>Active</label></div>
+      <div class="col-9">
+        <div>
+          <input class="form-control-sm" type="checkbox" name="active" id="active" {{verifiedHelper active}} />Active
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-3"><label>Image Filename</label></div>
+      <div class="col-9">
+        <input class="form-control" type="text" name="imageFilename" id="imageFilename" value="{{imageFilename}}" required />
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-4"><label>Created Date</label></div>
+      <div class="col-8"><span id="dateCreated">{{dateCreated}}</span></div>
+      <input type="hidden" name="dateCreated" value="{{dateCreated}}" />
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-4"><label>Updated Date</label></div>
+      <div class="col-8"><span id="dateUpdated">{{dateUpdated}}</span></div>
+      <input type="hidden" name="dateUpdated" value="{{dateUpdated}}" />
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+      <button id="btnSave" type="submit" class="btn btn-primary" hidden>
+        <i class="fas fa-save"></i> Save
+      </button>
+    </div>
+    <div class="col-4">
+      <button id="btnCancel" type="button" class="btn btn-outline-danger" hidden>
+        <i class="fas fa-backward"></i> Cancel
+      </button>
+    </div>
+
+  </div>
+</form>

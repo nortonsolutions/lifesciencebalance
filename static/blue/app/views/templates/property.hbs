@@ -1,0 +1,51 @@
+{{> navbar }}
+
+<div id="properties">
+    <img id="propertiesImage" src="images/properties.jpg" alt="Properties">
+    {{> searchbar }}
+
+    <div id="propertyContainer" class="container">
+        <h2 class="text-left py-5 text-body">{{type}} in {{city}}</h2>
+        <div class="d-flex justify-content-start flex-column">
+
+            <div class="d-flex flex-row flex-grow-1">
+                <img src="images/{{imageFilename}}" alt="{{imageFilename}}">
+
+                <div class="d-flex flex-column align-items-start ml-5">
+                    
+                    <div id="priceBubble" class="border-white badge-pill text-left px-5 py-2 text-white d-flex flex-column justify-content-centered align-content-center mb-5">
+                        
+                        {{status}}<br><span style="font-size: 24px;">$ {{price}}</span>
+
+                    </div>
+                    <h3 class="text-body">{{title}}</h3>
+                    <div>{{description}}</div>
+                </div>
+            </div>
+
+            <div class="my-5 text-left text-body d-flex flex-column">
+                <h3>Extra Facilities</h3>
+                <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa fugiat eum nulla officia, at quasi necessitatibus nihil. Doloribus qui ad consequatur vitae ducimus tempore sequi, sed, iure quibusdam velit amet.</div>
+
+                <div class="row w-75 mt-5">
+                    <div class="col text-left">Bedrooms</div>
+                    <div class="col text-left">Bathrooms</div>
+                    <div class="col text-left">Area</div>
+                    <div class="col text-left">Patios</div>
+                    <div class="col text-left">For Rent?</div>
+                </div>
+                <div class="row w-75 mt-2">
+                    <div class="col"><img src="images/room_1.png" alt="room_1"> {{bedrooms}}</div>
+                    <div class="col"><img src="images/room_2.png" alt="room_2"> {{bathrooms}}</div>
+                    <div class="col"><img src="images/room_3.png" alt="room_3"> {{area}} Sqft</div>
+                    <div class="col"><img src="images/room_4.png" alt="room_4"> {{patios}}</div>
+                    <div class="col"><img src="images/room_5.png" alt="room_5"> {{rentable}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{> footer}}
+
+

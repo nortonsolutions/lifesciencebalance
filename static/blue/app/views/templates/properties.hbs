@@ -1,0 +1,37 @@
+{{> navbar }}
+
+<div id="properties">
+    <img id="propertiesImage" src="images/properties.jpg" alt="Properties">
+    {{> searchbar }}
+
+    <h2>{{properties.length}} Properties found</h2>
+
+    <div id="cardsContainer">
+
+        <div class="cards">
+
+            {{#each properties}}
+
+                <a href="/property.html?propertyId={{id}}" data-route-link>
+                <div class="card">
+                    <img class="cardImage" src="images/{{imageFilename}}" alt="{{imageFilename}}">
+                    <div class="cardCity">{{city}}</div>
+                    <div class="cardType">{{type}}</div>
+                    <div class="cardPrice">$ {{price}}</div>
+                    <div class="cardFooter">
+                        <div><i class="fas fa-chart-area"></i> {{area}} Sqft</div>
+                        <div><i class="fas fa-bed"></i> {{bedrooms}} Bedrooms</div>
+                        <div><i class="fas fa-bath"></i> {{bathrooms}} Bathrooms</div>
+                    </div>
+                    {{status}}
+                </div></a>
+
+            {{/each}}
+
+        </div>
+    </div>
+</div>
+
+{{> footer}}
+
+
